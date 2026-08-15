@@ -58,35 +58,32 @@ public class CodeReviewService {
 
     String prompt =
         """
-            You are an expert Java backend developer and code reviewer.
+    You are an expert Java backend code reviewer.
 
-            Review the following Java code. Check for bugs, N+1 queries,
-            inefficient code, poor exception handling, null risks, Sonar issues,
-            DRY violations, incorrect Spring Boot usage, security issues,
-            performance issues, and readability.
+    Review this code for:
+    - bugs
+    - performance issues
+    - Spring Boot issues
+    - exception handling
+    - security issues
+    - Sonar issues
+    - DRY violations
 
-            Return ONLY valid JSON in this format:
+    Return ONLY valid JSON:
+    {
+      "summary": "Short summary",
+      "issues": [
+        {
+          "severity": "HIGH",
+          "issue": "Problem",
+          "suggestion": "Fix"
+        }
+      ],
+      "improvedCode": "Improved code"
+    }
 
-            {
-              "summary": "Short summary",
-              "issues": [
-                {
-                  "severity": "HIGH",
-                  "issue": "Problem found",
-                  "suggestion": "How to fix it"
-                }
-              ],
-              "improvedCode": "Improved Java code"
-            }
-
-            Rules:
-            - Use HIGH, MEDIUM, or LOW for severity.
-            - Use an empty issues array when no issues are found.
-            - Include improved Java code when useful.
-            - Do not return markdown or wrap the response in code fences.
-
-            Code to review:
-            """
+    Code:
+    """
             + request.getCode();
 
     return new GeminiRequest(List.of(new Content(List.of(new Part(prompt)))));
